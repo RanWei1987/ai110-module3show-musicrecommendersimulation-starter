@@ -136,3 +136,85 @@ def test_recommend_songs_returns_ranked_list():
     assert len(results) == 2
     assert results[0][0]["title"] == "Sunrise City"
     assert results[0][1] >= results[1][1]
+
+
+def _sample_song() -> dict:
+    return {
+        "id": 1,
+        "title": "Sunrise City",
+        "artist": "Neon Echo",
+        "genre": "pop",
+        "mood": "happy",
+        "energy": 0.82,
+        "tempo_bpm": 118,
+        "valence": 0.84,
+        "danceability": 0.79,
+        "acousticness": 0.18,
+    }
+
+
+def test_score_song_handles_missing_mood():
+    # "mood" key is absent entirely; scoring should still succeed.
+    user_prefs = {"genre": "pop", "energy": 0.8, "likes_acoustic": False}
+
+    score, reasons = score_song(user_prefs, _sample_song())
+
+    assert isinstance(score, float)
+    assert 0.0 <= score <= 1.0
+    assert reasons  # non-empty explanation
+
+
+def test_score_song_handles_missing_energy():
+    # No energy provided -> energy/tempo dimensions are skipped, no crash.
+    user_prefs = {"genre": "pop", "mood": "happy", "likes_acoustic": False}
+
+    score, reasons = score_song(user_prefs, _sample_song())
+
+    assert isinstance(score, float)
+    assert 0.0 <= score <= 1.0
+    assert not any("energy closeness" in reason.lower() for reason in reasons)
+
+
+def test_score_song_handles_explicit_none_energy():
+    # An explicit None must not crash float() in the energy path.
+    user_prefs = {"genre": "pop", "mood": "happy", "energy": None}
+
+    score, reasons = score_song(user_prefs, _sample_song())
+
+    assert isinstance(score, float)
+    assert 0.0 <= score <= 1.0
+
+
+def test_score_song_handles_empty_prefs():
+    # Completely empty preferences should degrade gracefully.
+    score, reasons = score_song({}, _sample_song())
+
+    assert isinstance(score, float)
+    assert 0.0 <= score <= 1.0
+    assert reasons
+
+
+def test_score_song_preserves_zero_energy():
+    # energy=0.0 is a valid value and must not be dropped as "falsy".
+    zero_prefs = {"genre": "pop", "mood": "happy", "energy": 0.0}
+    high_prefs = {"genre": "pop", "mood": "happy", "energy": 1.0}
+
+    song = _sample_song()  # high-energy song (0.82)
+    zero_score, zero_reasons = score_song(zero_prefs, song)
+    high_score, _ = score_song(high_prefs, song)
+
+    # If 0.0 were dropped, the energy dimension would be skipped and the two
+    # scores could not differ on energy. They must differ here.
+    assert any("energy closeness" in reason.lower() for reason in zero_reasons)
+    assert zero_score != high_score
+
+
+def test_score_song_handles_malformed_energy():
+    # A non-numeric energy must not raise; it's treated as "no energy signal".
+    user_prefs = {"genre": "pop", "mood": "happy", "energy": "high"}
+
+    score, reasons = score_song(user_prefs, _sample_song())
+
+    assert isinstance(score, float)
+    assert 0.0 <= score <= 1.0
+    assert not any("energy closeness" in reason.lower() for reason in reasons)

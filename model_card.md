@@ -114,7 +114,74 @@ I tested three representative profiles against the dataset:
 - `lofi / chill / energy=0.4 / likes_acoustic=True`
 - `rock / intense / energy=0.9 / likes_acoustic=False`
 
-For each profile, I checked whether the top-ranked songs matched the intended emotional and sonic profile of the user. The results were sensible: the happy, high-energy pop profile ranked upbeat songs first; the chill acoustic profile pushed toward low-energy, acoustic tracks; and the intense rock profile favored energetic, non-acoustic songs.
+For each profile, I checked whether the top-ranked songs matched the intended emotional and sonic profile of the user. The results were sensible: the happy, high-energy pop profile ranked upbeat songs first; the chill acoustic profile pushed toward low-energy, acoustic tracks; and the intense rock profile favored energetic, non-acoustic songs.  
+
+Output:  
+```
+Loading songs from data/songs.csv...
+======================================================================
+PROFILE: pop / happy / 0.8 -> {'genre': 'pop', 'mood': 'happy', 'energy': 0.8, 'likes_acoustic': False}
+======================================================================
+
+Top recommendations:
+
+Sunrise City - Score: 1.00
+Because: Matches preferred genre: pop; Matches preferred mood: happy; Energy closeness: 0.98 (song 0.82, target 0.80); Tempo alignment: 0.61 (song 118, target 172); Valence match: 0.99 (song valence 0.84, target 0.85); Danceability match: 0.94 (song danceability 0.79, target 0.85); Prefers less acoustic songs: non-acoustic bonus 0.82
+
+Gym Hero - Score: 1.00
+Because: Matches preferred genre: pop; Mood similarity: 0.80 (preferred happy, song intense); Energy closeness: 0.87 (song 0.93, target 0.80); Tempo alignment: 0.71 (song 132, target 172); Valence match: 0.92 (song valence 0.77, target 0.85); Danceability match: 0.97 (song danceability 0.88, target 0.85); Prefers less acoustic songs: non-acoustic bonus 0.95
+
+Rooftop Lights - Score: 1.00
+Because: Genre similarity: 0.83 (preferred pop, song indie pop); Matches preferred mood: happy; Energy closeness: 0.96 (song 0.76, target 0.80); Tempo alignment: 0.66 (song 124, target 172); Valence match: 0.96 (song valence 0.81, target 0.85); Danceability match: 0.97 (song danceability 0.82, target 0.85); Prefers less acoustic songs: non-acoustic bonus 0.65
+
+Confetti Sky - Score: 1.00
+Because: Matches preferred genre: pop; Matches preferred mood: happy; Energy closeness: 0.98 (song 0.82, target 0.80); Tempo alignment: 0.71 (song 132, target 172); Valence match: 0.92 (song valence 0.77, target 0.85); Danceability match: 0.97 (song danceability 0.88, target 0.85); Prefers less acoustic songs: non-acoustic bonus 0.95
+
+Storm Runner - Score: 0.82
+Because: Genre similarity: 0.50 (preferred pop, song rock); Mood similarity: 0.80 (preferred happy, song intense); Energy closeness: 0.89 (song 0.91, target 0.80); Tempo alignment: 0.86 (song 152, target 172); Valence match: 0.63 (song valence 0.48, target 0.85); Danceability match: 0.81 (song danceability 0.66, target 0.85); Prefers less acoustic songs: non-acoustic bonus 0.90
+
+======================================================================
+PROFILE: indie pop / chill / 0.4 -> {'genre': 'indie pop', 'mood': 'chill', 'energy': 0.4, 'likes_acoustic': False}
+======================================================================
+
+Top recommendations:
+
+Morning Ember - Score: 0.94
+Because: Genre similarity: 0.67 (preferred indie pop, song jazz); Matches preferred mood: chill; Energy closeness: 0.98 (song 0.42, target 0.40); Tempo alignment: 0.73 (song 78, target 116); Valence match: 0.91 (song valence 0.56, target 0.65); Danceability match: 0.98 (song danceability 0.62, target 0.60); Prefers less acoustic songs: non-acoustic bonus 0.29
+
+Night Drive Loop - Score: 0.92
+Because: Genre similarity: 0.83 (preferred indie pop, song synthwave); Mood similarity: 0.80 (preferred chill, song moody); Energy closeness: 0.65 (song 0.75, target 0.40); Tempo alignment: 0.96 (song 110, target 116); Valence match: 0.84 (song valence 0.49, target 0.65); Danceability match: 0.87 (song danceability 0.73, target 0.60); Prefers less acoustic songs: non-acoustic bonus 0.78
+
+Velvet Static - Score: 0.92
+Because: Genre similarity: 0.83 (preferred indie pop, song synthwave); Mood similarity: 0.80 (preferred chill, song moody); Energy closeness: 0.64 (song 0.76, target 0.40); Tempo alignment: 0.96 (song 110, target 116); Valence match: 0.84 (song valence 0.49, target 0.65); Danceability match: 0.87 (song danceability 0.73, target 0.60); Prefers less acoustic songs: non-acoustic bonus 0.78
+
+Coffee Shop Stories - Score: 0.88
+Because: Genre similarity: 0.67 (preferred indie pop, song jazz); Mood similarity: 0.80 (preferred chill, song relaxed); Energy closeness: 0.97 (song 0.37, target 0.40); Tempo alignment: 0.81 (song 90, target 116); Valence match: 0.94 (song valence 0.71, target 0.65); Danceability match: 0.94 (song danceability 0.54, target 0.60); Prefers less acoustic songs: non-acoustic bonus 0.11
+
+Midnight Coding - Score: 0.88
+Because: Genre similarity: 0.50 (preferred indie pop, song lofi); Matches preferred mood: chill; Energy closeness: 0.98 (song 0.42, target 0.40); Tempo alignment: 0.73 (song 78, target 116); Valence match: 0.91 (song valence 0.56, target 0.65); Danceability match: 0.98 (song danceability 0.62, target 0.60); Prefers less acoustic songs: non-acoustic bonus 0.29
+
+======================================================================
+PROFILE: rock / intense / 0.9 -> {'genre': 'rock', 'mood': 'intense', 'energy': 0.9, 'likes_acoustic': False}
+======================================================================
+
+Top recommendations:
+
+Storm Runner - Score: 1.00
+Because: Matches preferred genre: rock; Matches preferred mood: intense; Energy closeness: 0.99 (song 0.91, target 0.90); Tempo alignment: 0.76 (song 152, target 186); Valence match: 0.92 (song valence 0.48, target 0.40); Danceability match: 0.86 (song danceability 0.66, target 0.80); Prefers less acoustic songs: non-acoustic bonus 0.90
+
+Adrenaline Gate - Score: 1.00
+Because: Matches preferred genre: rock; Matches preferred mood: intense; Energy closeness: 0.97 (song 0.93, target 0.90); Tempo alignment: 0.76 (song 152, target 186); Valence match: 0.92 (song valence 0.48, target 0.40); Danceability match: 0.86 (song danceability 0.66, target 0.80); Prefers less acoustic songs: non-acoustic bonus 0.90
+
+Gym Hero - Score: 0.88
+Because: Genre similarity: 0.50 (preferred rock, song pop); Matches preferred mood: intense; Energy closeness: 0.97 (song 0.93, target 0.90); Tempo alignment: 0.61 (song 132, target 186); Valence match: 0.63 (song valence 0.77, target 0.40); Danceability match: 0.92 (song danceability 0.88, target 0.80); Prefers less acoustic songs: non-acoustic bonus 0.95
+
+Rooftop Lights - Score: 0.85
+Because: Genre similarity: 0.67 (preferred rock, song indie pop); Mood similarity: 0.80 (preferred intense, song happy); Energy closeness: 0.86 (song 0.76, target 0.90); Tempo alignment: 0.56 (song 124, target 186); Valence match: 0.59 (song valence 0.81, target 0.40); Danceability match: 0.98 (song danceability 0.82, target 0.80); Prefers less acoustic songs: non-acoustic bonus 0.65
+
+Confetti Sky - Score: 0.81
+Because: Genre similarity: 0.50 (preferred rock, song pop); Mood similarity: 0.80 (preferred intense, song happy); Energy closeness: 0.92 (song 0.82, target 0.90); Tempo alignment: 0.61 (song 132, target 186); Valence match: 0.63 (song valence 0.77, target 0.40); Danceability match: 0.92 (song danceability 0.88, target 0.80); Prefers less acoustic songs: non-acoustic bonus 0.95
+```
 
 ---
 

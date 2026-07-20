@@ -9,3 +9,8 @@ id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
 8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
 9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
 10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
+11,Velvet Static,Max Pulse,synthwave,moody,0.76,110,0.49,0.73,0.22
+12,Morning Ember,Slow Stereo,jazz,chill,0.42,78,0.56,0.62,0.71
+13,Adrenaline Gate,Voltline,rock,intense,0.93,152,0.48,0.66,0.10
+14,Deep Work,LoRoom,lofi,chill,0.35,72,0.60,0.58,0.78
+15,Confetti Sky,Max Pulse,pop,happy,0.82,132,0.77,0.88,0.05

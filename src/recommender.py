@@ -50,11 +50,40 @@ MOOD_DANCEABILITY_PREFERENCE = {
 }
 
 
+def _first_present(user_prefs: Dict, *keys: str):
+    """
+    Return the first key that is present with a non-None value.
+
+    Unlike ``a or b``, this preserves valid falsy values such as an energy
+    of 0.0, which would otherwise be silently dropped.
+    """
+    for key in keys:
+        value = user_prefs.get(key)
+        if value is not None:
+            return value
+    return None
+
+
+def _to_float(value) -> Optional[float]:
+    """
+    Best-effort float conversion for unpredictable user input.
+
+    Returns None (rather than raising) for missing or malformed values so
+    downstream scoring can skip that dimension gracefully.
+    """
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def _normalize_user_prefs(user_prefs: Dict) -> Dict:
     return {
-        "genre": user_prefs.get("genre") or user_prefs.get("favorite_genre"),
-        "mood": user_prefs.get("mood") or user_prefs.get("favorite_mood"),
-        "energy": user_prefs.get("energy") or user_prefs.get("target_energy"),
+        "genre": _first_present(user_prefs, "genre", "favorite_genre"),
+        "mood": _first_present(user_prefs, "mood", "favorite_mood"),
+        "energy": _first_present(user_prefs, "energy", "target_energy"),
         "likes_acoustic": user_prefs.get("likes_acoustic", False),
     }
 
@@ -172,7 +201,7 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
 
     preferred_genre = user_prefs["genre"]
     preferred_mood = user_prefs["mood"]
-    target_energy = user_prefs["energy"]
+    target_energy = _to_float(user_prefs["energy"])
     likes_acoustic = bool(user_prefs["likes_acoustic"])
 
     if preferred_genre and song["genre"] == preferred_genre:
