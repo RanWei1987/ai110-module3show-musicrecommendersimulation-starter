@@ -10,19 +10,22 @@
 
 **What task did you give the agent?**
 
-<!-- Describe the goal you asked the agent to accomplish -->
+Use Copilot to inspect the repository, verify the project structure, run the recommender experiments, and help polish the README and model card documentation based on the verified outputs.
 
 **Prompts used:**
 
-<!-- Paste the key prompts you gave the agent -->
+- “Please make sure you can reach the contents in folder ai110-module3show-musicrecommendersimulation-starter”
+- “Conduct the experiments suggested under Experiments You Tried in README.md, and fill in with your observations.”
+- “Help answer the prompts under Limitations and Bias and Future Work in model_card.md.”
+- “Polish the personal reflection answers in model_card.md.”
 
 **What did the agent generate or change?**
 
-<!-- List the files edited, code generated, or commands run -->
+The agent helped confirm workspace access, ran the recommender experiments, updated the experiment notes in the README, and filled in the model card sections for limitations, bias, future work, and personal reflection.
 
 **What did you verify or fix manually?**
 
-<!-- Describe anything the agent got wrong or that required human review -->
+I manually verified the results by rerunning the project tests and the sample app output. The final wording was then reviewed and adjusted so the explanations matched the actual scoring logic in the code rather than just the initial placeholders.
 
 ---
 
@@ -32,12 +35,10 @@
 
 **Which design pattern did you use?**
 
-<!-- e.g., Strategy, Factory, Observer, etc. -->
 
 **How did AI help you brainstorm or implement it?**
 
-<!-- Describe the conversation or suggestions that led to your decision -->
 
 **How does the pattern appear in your final code?**
 
-<!-- Point to the relevant class or method -->
+

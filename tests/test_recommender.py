@@ -1,4 +1,11 @@
-from src.recommender import Song, UserProfile, Recommender
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.recommender import Song, UserProfile, Recommender, score_song, recommend_songs
 
 def make_small_recommender() -> Recommender:
     songs = [
@@ -59,3 +66,73 @@ def test_explain_recommendation_returns_non_empty_string():
     explanation = rec.explain_recommendation(user, song)
     assert isinstance(explanation, str)
     assert explanation.strip() != ""
+
+
+def test_score_song_uses_profile_fields_for_rankings():
+    user_prefs = {
+        "genre": "pop",
+        "mood": "happy",
+        "energy": 0.8,
+        "likes_acoustic": False,
+    }
+
+    song = {
+        "id": 1,
+        "title": "Sunrise City",
+        "artist": "Neon Echo",
+        "genre": "pop",
+        "mood": "happy",
+        "energy": 0.82,
+        "tempo_bpm": 118,
+        "valence": 0.84,
+        "danceability": 0.79,
+        "acousticness": 0.18,
+    }
+
+    score, reasons = score_song(user_prefs, song)
+
+    assert isinstance(score, float)
+    assert score > 0.5
+    assert any("genre" in reason.lower() for reason in reasons)
+    assert any("mood" in reason.lower() for reason in reasons)
+
+
+def test_recommend_songs_returns_ranked_list():
+    songs = [
+        {
+            "id": 1,
+            "title": "Sunrise City",
+            "artist": "Neon Echo",
+            "genre": "pop",
+            "mood": "happy",
+            "energy": 0.82,
+            "tempo_bpm": 118,
+            "valence": 0.84,
+            "danceability": 0.79,
+            "acousticness": 0.18,
+        },
+        {
+            "id": 2,
+            "title": "Midnight Coding",
+            "artist": "LoRoom",
+            "genre": "lofi",
+            "mood": "chill",
+            "energy": 0.42,
+            "tempo_bpm": 78,
+            "valence": 0.56,
+            "danceability": 0.62,
+            "acousticness": 0.71,
+        },
+    ]
+    user_prefs = {
+        "genre": "pop",
+        "mood": "happy",
+        "energy": 0.8,
+        "likes_acoustic": False,
+    }
+
+    results = recommend_songs(user_prefs, songs, k=2)
+
+    assert len(results) == 2
+    assert results[0][0]["title"] == "Sunrise City"
+    assert results[0][1] >= results[1][1]
