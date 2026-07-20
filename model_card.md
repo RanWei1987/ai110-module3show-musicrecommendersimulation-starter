@@ -47,11 +47,18 @@ The scoring is intentionally simple and explainable, so the output can be unders
 In implementation terms, the score is computed as a weighted sum:
 
 $$
-\text{score} = 0.40 \cdot \text{genre\_match} + 0.30 \cdot \text{mood\_match} + 0.20 \cdot \text{energy\_similarity} + 0.10 \cdot \text{tempo\_similarity} + 0.05 \cdot \text{valence\_similarity} + 0.05 \cdot \text{danceability\_similarity} + 0.05 \cdot \text{acoustic\_preference}
+\text{score}
+=
+0.40 \cdot \text{genre\_match}
++ 0.30 \cdot \text{mood\_match}
++ 0.20 \cdot \text{energy\_similarity}
++ 0.10 \cdot \text{tempo\_similarity}
++ 0.05 \cdot \text{valence\_similarity}
++ 0.05 \cdot \text{danceability\_similarity}
++ 0.05 \cdot \text{acoustic\_preference}
 $$
 
-where the final value is clipped to the range $[0,1]$.
-
+where the final value is clipped to the range $[0,1]$.  
 - `genre_match` and `mood_match` are exact matches when possible, otherwise they fall back to a similarity score.
 - `energy_similarity = 1 - |\text{song.energy} - \text{target_energy}|`
 - `tempo_similarity` measures closeness to a tempo target inferred from the user’s energy preference.
